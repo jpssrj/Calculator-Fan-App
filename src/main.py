@@ -25,9 +25,15 @@ def main():
             html_path = dev_path
 
     # Ícone do aplicativo
-    icon_path = get_asset_path(os.path.join("..", "build_scripts", "assets", "app_icon.ico"))
-    if not os.path.exists(icon_path):
-        icon_path = None
+    icon_candidates = [
+        get_asset_path(os.path.join("assets", "app_icon.ico")),
+        os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "build_scripts", "assets", "app_icon.ico")),
+    ]
+    icon_path = None
+    for cand in icon_candidates:
+        if os.path.exists(cand):
+            icon_path = cand
+            break
 
     window = webview.create_window(
         title="Calculator Fan",
